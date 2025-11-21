@@ -1,18 +1,18 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, tick } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { KeyCode } from '../lib/ng-select.types';
 
 export class TestsErrorHandler { }
 
-export function tickAndDetectChanges(fixture: ComponentFixture<any>) {
+export async function tickAndDetectChanges(fixture: ComponentFixture<any>) {
 	fixture.detectChanges();
-	tick();
+	await fixture.whenStable();
 }
 
-export function selectOption(fixture, key: KeyCode, index: number) {
+export async function selectOption(fixture, key: KeyCode, index: number) {
 	triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.Space); // open
-	tickAndDetectChanges(fixture); // need to tick and detect changes, since dropdown fully inits after promise is resolved
+	await tickAndDetectChanges(fixture); // need to detect changes and wait for stability, since dropdown fully inits after promise is resolved
 	for (let i = 0; i < index; i++) {
 		triggerKeyDownEvent(getNgSelectElement(fixture), key);
 	}

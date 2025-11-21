@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "repository": "ng-select/ng-select",
   "scripts": {
     "ng": "ng",
@@ -8,10 +9,11 @@
     "copy-sass": "mkdir -p dist/ng-select/scss && cp src/ng-select/**/*.scss dist/ng-select/scss",
     "copy-examples": "cp -r src/demo/app/examples dist/demo/browser",
     "start": "ng serve",
-    "test:watch": "ng test ng-select --watch",
-    "test": "ng test ng-select --code-coverage && ng test ng-option-highlight --code-coverage",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
-    "coveralls": "cat ./coverage/ng-select/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test:watch": "NODE_OPTIONS='--no-warnings' vitest --ui",
+    "test": "NODE_OPTIONS='--no-warnings' vitest run --coverage",
+    "test:ci": "NODE_OPTIONS='--no-warnings' vitest run --coverage --reporter=verbose",
+    "test:karma": "ng test ng-select --code-coverage && ng test ng-option-highlight --code-coverage",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "ng lint ng-select && ng lint ng-option-highlight",
     "postpublish": "cp dist/ng-select/package.json src/ng-select && cp dist/ng-option-highlight/package.json src/ng-option-highlight",
     "release": "semantic-release",
@@ -52,6 +54,7 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^2.1.0",
     "@angular-eslint/builder": "20.4.0",
     "@angular-eslint/eslint-plugin": "20.4.0",
     "@angular-eslint/eslint-plugin-template": "20.4.0",
@@ -61,6 +64,7 @@
     "@angular/cli": "^20.3.6",
     "@angular/compiler-cli": "^20.3.6",
     "@angular/language-service": "^20.3.6",
+    "@angular/platform-server": "^21.0.0",
     "@semantic-release/changelog": "^6.0.3",
     "@stackblitz/sdk": "^1.11.0",
     "@types/jasmine": "~5.1.12",
@@ -68,6 +72,11 @@
     "@types/node": "^24.8.1",
     "@typescript-eslint/eslint-plugin": "8.46.1",
     "@typescript-eslint/parser": "8.46.1",
+    "@vitest/browser": "^4.0.12",
+    "@vitest/browser-playwright": "^4.0.12",
+    "@vitest/coverage-istanbul": "^4.0.12",
+    "@vitest/expect": "^4.0.12",
+    "@vitest/ui": "^4.0.12",
     "coveralls": "^3.1.1",
     "eslint": "9.38.0",
     "eslint-config-prettier": "^10.1.8",
@@ -77,6 +86,7 @@
     "gh-pages-travis": "^1.0.4",
     "jasmine-core": "~5.12.0",
     "jasmine-spec-reporter": "~7.0.0",
+    "jsdom": "^27.2.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "^2.2.1",
@@ -85,11 +95,14 @@
     "ng-packagr": "^20.3.0",
     "node-gyp": "^11.5.0",
     "patch-package": "^8.0.1",
+    "playwright": "^1.56.1",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
     "semantic-release": "^25.0.0",
     "standard-version": "^9.5.0",
     "ts-node": "~10.9.2",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4",
+    "vitest": "^4.0.12"
   }
 }
